@@ -1,0 +1,8 @@
+[Unit]
+Description=Haproxy Agent
+
+[Service]
+ExecStart=/usr/bin/haproxy-agent
+
+[Install]
+WantedBy=multi-user.target

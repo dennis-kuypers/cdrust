@@ -1,0 +1,10 @@
+[package]
+name = "cd-service-config"
+description = "Uniform configuration support for services"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+thiserror = "1"
+figment = { version = "0.10", features = ["toml", "env"] }
+tracing = "0.1.29"

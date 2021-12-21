@@ -1,0 +1,18 @@
+[package]
+name = "cd-aws"
+description = "ceres aws api wrapper"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+derive-new = "0.5"
+log = "0.4"
+regex = "1"
+serde = { version = "1", features = ["derive"] }
+thiserror = "1"
+
+# AWS SDK
+aws-config = "0.0.26-alpha"
+aws-sdk-ec2 = "0.0.26-alpha"
+aws-sdk-sts = "0.0.26-alpha"
+aws-types = "0.0.26-alpha"

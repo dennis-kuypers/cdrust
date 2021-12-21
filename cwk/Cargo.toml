@@ -1,0 +1,13 @@
+[package]
+name = "cwk"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+cd-cli = { path = "../cd-cli" }
+
+anyhow = "1.0"
+
+serde = { version = "1", features = ["derive"] }
+structopt = "0.3"
+tokio = { version = "1", features = ["rt-multi-thread", "macros"]}
