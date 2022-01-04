@@ -1,6 +1,8 @@
-.PHONY: haproxy-agent-deb
+.PHONY: haproxy-agent
 
-all: haproxy-agent-deb
-
-haproxy-agent-deb:
-	cargo b --release -p haproxy-agent && cargo deb -p haproxy-agent --no-build
+haproxy-agent:
+	cargo b --release -p haproxy-agent
+	cargo deb -p haproxy-agent --no-build
+default:
+	@echo "No target specified"
+	@exit 1

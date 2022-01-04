@@ -1,0 +1,11 @@
+[package]
+name = "cssh"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+cd-cli = { path = "../../lib/cd-cli", features = ["aws"] }
+
+anyhow = "1.0"
+structopt = "0.3"
+tokio = { version = "1", features = ["rt-multi-thread", "macros"]}

@@ -2,5 +2,6 @@
 
 All-in-one repo for libraries, cli tools and services.
 
-* for cli tool documentation see [CLI.md](CLI.md)
-* for services see [SERVICES.md](SERVICES.md)
+* [CLI Documentation](cli/README.md)
+* [Library Documentation](lib/README.md)
+* [Services Documentation](service/README.md)

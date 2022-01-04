@@ -1,0 +1,45 @@
+[package]
+name = "centerdevice"
+version = "0.5.1"
+authors = ["Lukas Pustina <lukas.pustina@centerdevice.de>"]
+description = "Rust API Client for CenterDevice"
+repository = "https://github.com/centerdevice/centerdevice-rs.git"
+readme = "README.md"
+license = "MIT"
+keywords = ["centerdevice", "api"]
+categories = ["api-bindings"]
+include = [
+  "README.md",
+  "LICENSE",
+  "**/*.rs",
+  "Cargo.toml",
+]
+edition = "2018"
+
+[badges]
+circle-ci = { repository = "centerdevice/centerdevice-rs", branch = "master" }
+
+[lib]
+name = "centerdevice"
+path = "src/lib.rs"
+
+[dependencies]
+chrono = { version = "0.4.19", features = ["serde"] }
+failure = "0.1.8"
+hex = "0.4.3"
+# Necessary for hyper::header::* compatible with mime_multifrom; only this version works
+hyper_old = { version = "0.10", default-features = false, package = "hyper" }
+hyperx = "1.3.0"
+log = "0.4.14"
+mime = "0.2"
+mime_multipart = "0.6.0"
+ring = "0.16"
+reqwest = { version = "0.11.4", default-features = false, features = ["blocking", "json", "rustls-tls"] }
+serde = { version = "1.0.130", features = ["derive"] }
+serde_json = "1.0.68"
+
+[dev-dependencies]
+env_logger = "0.9.0"
+spectral = "0.6.0"
+# examples only
+mime_guess = "1"
