@@ -1,0 +1,24 @@
+class Cssh < Formula
+  version '{{ version }}'
+  desc "{{ description }}"
+  homepage "https://github.com/dennis-kuypers/cdrust/cli"
+
+  if OS.mac?
+    case Hardware::CPU::type
+    when :intel
+      url "https://github.com/dennis-kuypers/cdrust/releases/download/v#{version}/{{ name }}-#{version}-x86_64-apple-darwin.tar.gz"
+      sha256 "{{ checksum }}"
+    end
+  end
+
+  def install
+    bin.install "{{ name }}"
+
+
+    # TODO: man pages
+    # man1.install "doc/{{ name }}.1"
+    # TODO: completions...
+    # bash_completion.install "complete/{{ name }}.bash"
+    # zsh_completion.install "complete/_{{ name }}"
+  end
+end

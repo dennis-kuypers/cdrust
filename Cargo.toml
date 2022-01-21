@@ -1,0 +1,8 @@
+[workspace]
+members = [
+  "cli/cssh",
+  "cli/cvpn",
+  "lib/cd-aws",
+  "lib/cd-cli",
+  "lib/cd-tunnelblick",
+]

@@ -1,0 +1,29 @@
+[package]
+name = "cd-cli"
+description = "Utilities for CLI tools"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+cd-aws = { path = "../cd-aws", optional = true }
+cd-tunnelblick = { path = "../cd-tunnelblick", optional = true }
+
+anyhow = "1"
+async-trait = "0.1"
+ctrlc = "3.2"
+derive-new = "0.5"
+dialoguer = { version = "0.9", features = ["fuzzy-select"] }
+directories = "4"
+figment = { version = "0.10", features = ["toml", "env"] }
+regex = "1"
+serde = {version ="1", features = ["derive"]}
+serde_json = "1"
+serde_variant = "0.1"
+structopt = "0.3"
+thiserror = "1"
+tracing = { version = "0.1" }
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+[features]
+default = []
+aws = ["cd-aws"]

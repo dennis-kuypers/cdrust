@@ -1,0 +1,83 @@
+:toc:
+:gh-repo: dennis-kuypers/cdrust
+:all-bins: cssh cvpn
+= cdrust
+
+link:CHANGELOG.md[Changelog]
+
+== Install
+
+=== homebrew (OSX)
+
+[source,shell,subs="attributes"]
+----
+brew tap {gh-repo}
+brew install cssh
+----
+
+=== from source
+
+_Requires `rust` toolchain. see https://rustup.rs/_
+
+`cargo install --git ssh://github.com/{gh-repo} {all-bins}`
+
+This will install all binaries to `$HOME/.cargo/bin` (make sure that it's on your `$PATH`)
+
+== Configuration
+
+All tools are based on the same libraries, and they all share some configuration entries.
+When configuring aws related options they will apply to all tools (unless you specify in a tool-specific config file)
+
+=== Profiles
+
+The config system is profile based.
+
+The `default` profile is loaded first.
+Then the *selected profile* is loaded.
+Finally the `global` profile is loaded and overwrites any previous values.
+
+The *selected profile* is determined either using the CLI switch `-p &lt;profile&gt;`/`--profile &lt;profile&gt;` or by reading the contents of `~/.cd/profile`.
+
+=== Files
+
+The file format is TOML.
+
+|===
+|File |Contents
+
+|`~/.cd/default.conf` |fallback values
+|`~/.cd/&lt;profile&gt;.conf` |values for selected profile
+|`~/.cd/global.conf` |overrides
+|`~/.cd/&lt;name&gt;.conf` |cli specific (contains multiple profiles)
+|===
+
+*Example*
+
+[source,toml]
+----
+# default.conf, <profile>.conf or global.conf
+[foo]
+bar = "hello config"
+----
+
+_Effectively configures `foo.bar` to value `hello config`._
+
+In the cli specific file the first configuration level is the profile name, so `&lt;key...&gt;` becomes `&lt;profile&gt;.&lt;key...&gt;`.
+
+To configure `foo.bar` to value `hello config` in the `default` profile you would write:
+
+[source,toml]
+----
+# <name>.conf
+[default.foo]
+bar = "hello config"
+----
+
+or
+
+[source,toml]
+----
+# <name>.conf
+[default]
+foo.bar = "hello config"
+----

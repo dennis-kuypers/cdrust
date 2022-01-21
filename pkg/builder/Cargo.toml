@@ -1,0 +1,13 @@
+[package]
+name = "builder"
+description = "Helper for releases"
+version = "0.1.0"
+edition = "2021"
+
+[workspace]
+# we are not part of the repo workspace
+
+[dependencies]
+handlebars = "4.2"
+tar = "0.4"
+flate2 = "1.0"
