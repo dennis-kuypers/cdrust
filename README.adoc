@@ -11,7 +11,7 @@ link:CHANGELOG.md[Changelog]
 
 [source,shell,subs="attributes"]
 ----
-brew tap {gh-repo}
+brew tap {gh-repo} git@github.com:{gh-repo}.git
 brew install cssh
 ----
 
