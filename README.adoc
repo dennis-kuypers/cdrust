@@ -94,7 +94,7 @@ foo.bar = "hello config"
 
 `cssh` does not have tool specific settings.
 
-`cssh` requires link:#config-aws[AWS]
+`cssh` requires link:#config-aws[AWS] and can optionally use link:#config-tmux[tmux] for multiplexing connections.
 
 ==== cvpn (cli)
 
@@ -130,5 +130,24 @@ The config prefix is `tunnelblick`.
 |connection (string, required if enabled=true)
 |The configuration name as shown in the tunnelblick ui
 |`my_vpn_connection`
+
+|===
+
+
+[#config-tmux]
+==== tmux (lib)
+The config prefix is `tmux`.
+
+|===
+| Key |Description |Example
+
+|enabled (boolean, default=false)
+|Enables tmux functionality.
+|true/false
+
+|layout (string, required if enabled=true)
+|The layout to apply after spawning a new panel. This is required so that repeated splitting of panels does not lead to an exchaustion of space.
+For options see https://www.man7.org/linux/man-pages/man1/tmux.1.html[tmux select-layout]
+|`even-vertical`
 
 |===
