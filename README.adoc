@@ -1,7 +1,13 @@
 :toc:
 :gh-repo: dennis-kuypers/cdrust
 :all-bins: cssh cvpn
-= cdrust
+= Rust Monorepo
+
+Contains code for various (ops-related) tools written in rust.
+
+- `cli/cssh` - cli to easily SSH into AWS EC2 instances
+- `cli/cvpn` - cli to control VPN connections (Tunnelblick)
+- `lib/*` - supporting libraries
 
 link:CHANGELOG.md[Changelog]
 
