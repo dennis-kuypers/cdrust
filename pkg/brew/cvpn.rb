@@ -7,7 +7,7 @@ class Cvpn < Formula
     case Hardware::CPU::type
     when :intel
       url "https://github.com/dennis-kuypers/cdrust/releases/download/cvpn-#{version}/cvpn-#{version}-x86_64-apple-darwin.tar.gz"
-      sha256 "55f5bde8a5568676d3a64722ba18e9954500418d641680b84bbebe763d1fc994"
+      sha256 "42c2e1373b6d209ce9a30998871a75bf10c738ed9b0e545c1fd5e232c6c857cd"
     end
   end
 
