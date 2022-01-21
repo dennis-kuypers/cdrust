@@ -1,0 +1,7 @@
+# commands used to release...
+
+# upload to GH releases
+gh release create tool-0.1.0 ./tool-0.1.0-x86_64-apple-darwin.tar.gz
+
+# update homebrew formulae (hash)
+shasum -a 256 tool-0.1.0-x86_64-apple-darwin.tar.gz
