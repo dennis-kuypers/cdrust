@@ -1,4 +1,4 @@
-class Cssh < Formula
+class Cvpn < Formula
   version '0.2.0'
   desc "Control VPN from the command line"
   homepage "https://github.com/dennis-kuypers/cdrust/cli"
