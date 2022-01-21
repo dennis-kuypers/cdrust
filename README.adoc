@@ -12,12 +12,12 @@ link:CHANGELOG.md[Changelog]
 [source,shell,subs="attributes"]
 ----
 brew tap {gh-repo} git@github.com:{gh-repo}.git
-brew install cssh
+brew install {all-bins}
 ----
 
 === from source
 
-_Requires `rust` toolchain. see https://rustup.rs/_
+_Requires `rust` toolchain. see https://rustup.rs/_. MSRV=1.58
 
 `cargo install --git ssh://github.com/{gh-repo} {all-bins}`
 
@@ -81,3 +81,48 @@ or
 [default]
 foo.bar = "hello config"
 ----
+
+=== Properties
+
+==== cssh (cli)
+
+`cssh` does not have tool specific settings.
+
+`cssh` requires link:#config-aws[AWS]
+
+==== cvpn (cli)
+
+`cvpn` does not have tool specific settings.
+
+`cvpn` requires link:#config-tunnelblick[tunnelblick]
+
+[#config-aws]
+==== aws (lib)
+The config prefix is `aws`.
+
+|===
+| Key |Description |Example
+
+|profile (string, required)
+|The AWS profile to use.
+This usually refers to the name of a `~/.aws/config` `profile` section
+|`rol_ops@prod`
+
+|===
+
+[#config-tunnelblick]
+==== tunnelblick (lib)
+The config prefix is `tunnelblick`.
+
+|===
+| Key |Description |Example
+
+|enabled (boolean, default=false)
+|Enables tunnelblick functionality.
+|true/false
+
+|connection (string, required if enabled=true)
+|The configuration name as shown in the tunnelblick ui
+|`my_vpn_connection`
+
+|===
