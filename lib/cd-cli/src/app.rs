@@ -9,12 +9,12 @@ impl App {
     pub fn new(name: &str, config: ConfigOpts) -> anyhow::Result<Self> {
         let config = load_config(config, name);
 
-        let env_log = format!("{}_LOG", name.replace('-', "_").to_uppercase());
-        tracing_subscriber::FmtSubscriber::builder()
-            .with_max_level(tracing::Level::ERROR)
-            .with_env_filter(tracing_subscriber::EnvFilter::from_env(env_log))
-            .with_writer(std::io::stderr)
-            .init();
+        let logging_config: crate::logging::Config = config
+            .focus(crate::logging::LOGGING_CONFIG_KEY)
+            .extract()
+            .map_err(|e| anyhow!("Failed to load configuration for {}. {}", name, e))?;
+
+        crate::logging::load_logging(name, logging_config);
 
         Ok(App { config })
     }

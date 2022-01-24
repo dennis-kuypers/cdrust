@@ -13,6 +13,8 @@ pub mod dialog;
 pub mod output;
 pub mod shell_multiplexer;
 
+mod logging;
+
 pub mod prelude {
     pub use anyhow::{anyhow, bail, ensure, Context};
     pub use derive_new::new;
