@@ -20,6 +20,9 @@ impl App {
     }
 
     pub fn config<'a, T: serde::Deserialize<'a>>(&self, name: &str) -> anyhow::Result<T> {
-        self.config.focus(name).extract().map_err(|e| anyhow!(e))
+        self.config
+            .focus(name)
+            .extract()
+            .map_err(|e| anyhow!("Failed to load configuration for {}. {}", name, e))
     }
 }
