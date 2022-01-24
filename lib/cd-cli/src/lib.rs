@@ -11,6 +11,8 @@ pub mod aws;
 pub mod config;
 pub mod dialog;
 pub mod output;
+#[cfg(feature = "pivotal")]
+pub mod pivotal;
 pub mod shell_multiplexer;
 
 mod logging;

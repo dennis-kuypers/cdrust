@@ -6,6 +6,7 @@ edition = "2021"
 
 [dependencies]
 cd-aws = { path = "../cd-aws", optional = true }
+cd-pivotaltracker = { path = "../cd-pivotaltracker", optional = true }
 cd-tunnelblick = { path = "../cd-tunnelblick", optional = true }
 
 anyhow = "1"
@@ -23,7 +24,9 @@ structopt = "0.3"
 thiserror = "1"
 tracing = { version = "0.1" }
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+url = "2.2"
 
 [features]
 default = []
 aws = ["cd-aws"]
+pivotal = ["cd-pivotaltracker"]
