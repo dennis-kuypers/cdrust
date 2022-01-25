@@ -1,6 +1,6 @@
 :toc:
 :gh-repo: dennis-kuypers/cdrust
-:all-bins: cssh cvpn
+:all-bins: cssh cvpn cwk
 = Rust Monorepo
 
 Contains code for various (ops-related) tools written in rust.
