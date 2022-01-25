@@ -121,7 +121,7 @@ The config prefix is `aws`.
 |profile (string, required)
 |The AWS profile to use.
 This usually refers to the name of a `~/.aws/config` `profile` section
-|`rol_ops@prod`
+|`"rol_ops@prod"`
 
 |===
 
@@ -135,11 +135,11 @@ The config prefix is `pivotal`.
 
 |me (string)
 |Your `User name` on your link:https://www.pivotaltracker.com/profile[PivotalTracker Profile]. This is used to filter tickets.
-|`albert_einstein`
+|`"albert_einstein"`
 
 |token (string)
 |Your `api token` on your link:https://www.pivotaltracker.com/profile[PivotalTracker Profile].
-|`1234567890abcdef`
+|`"1234567890abcdef"`
 
 |project_id (integer)
 |The project to use. Can be found as part of the url on the web.
@@ -161,7 +161,7 @@ The config prefix is `tunnelblick`.
 
 |connection (string, required if enabled=true)
 |The configuration name as shown in the tunnelblick ui
-|`my_vpn_connection`
+|`"my_vpn_connection"`
 
 |===
 
@@ -180,6 +180,6 @@ The config prefix is `tmux`.
 |layout (string, required if enabled=true)
 |The layout to apply after spawning a new panel. This is required so that repeated splitting of panels does not lead to an exchaustion of space.
 For options see https://www.man7.org/linux/man-pages/man1/tmux.1.html[tmux select-layout]
-|`even-vertical`
+|`"even-vertical"`
 
 |===
