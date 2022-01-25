@@ -29,7 +29,8 @@ brew install {all-bins}
 
 ==== from source
 
-_Requires `rust` toolchain. see https://rustup.rs/_. MSRV=1.58
+_Requires `rust` toolchain. see https://rustup.rs/_.
+MSRV=1.58
 
 `cargo install --git ssh://github.com/{gh-repo} {all-bins}`
 
@@ -96,8 +97,22 @@ foo.bar = "hello config"
 
 ==== Properties
 
+[#config-log]
+==== logging (lib)
+
+The config prefix is `log`.
+
+|===
+| Key |Description |Example
+
+|`custom`
+|Takes one of `off`, `error`, `warn`, `info`, `debug`, `trace` or a complex configuration according to the link:https://docs.rs/env_logger/0.9.0/env_logger/#enabling-logging[env_logger] documentation.
+|`debug`
+|===
+
 [#config-aws]
 ==== aws (lib)
+
 The config prefix is `aws`.
 
 |===
@@ -112,6 +127,7 @@ This usually refers to the name of a `~/.aws/config` `profile` section
 
 [#config-tunnelblick]
 ==== tunnelblick (lib)
+
 The config prefix is `tunnelblick`.
 
 |===
@@ -127,9 +143,9 @@ The config prefix is `tunnelblick`.
 
 |===
 
-
 [#config-tmux]
 ==== tmux (lib)
+
 The config prefix is `tmux`.
 
 |===
