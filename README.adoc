@@ -11,11 +11,23 @@ Contains code for various (ops-related) tools written in rust.
 |Tool |
 
 |link:cli/cssh/README.adoc[cssh]
-|cli to easily SSH into AWS EC2 instances
+|easily SSH into AWS EC2 instances
 
 |link:cli/cvpn/README.adoc[cvpn]
-|cli to control VPN connections (Tunnelblick)
+|control VPN connections (Tunnelblick)
+
+|link:cli/cwk/README.adoc[cwk]
+|Workflow helper (PivotalTracker, github, git)
+
 |===
+
+
+=== ceres substitutes
+
+Replacements for link:https://github.com/CenterDevice/ceres[ceres] features:
+
+* `ceres stories prepare` -> `cwk prep`
+* contrib `cssh` script -> `cssh`
 
 === Install
 
