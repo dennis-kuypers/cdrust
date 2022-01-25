@@ -77,7 +77,7 @@ impl Client {
 
     pub async fn get_stories(&self, project_id: u64, filter: &str) -> Result<Vec<Story>> {
         let url = Url::parse_with_params(
-            &format!("https://www.pivotaltracker.com/services/v5/projects/{project_id}/stories/",),
+            &format!("https://www.pivotaltracker.com/services/v5/projects/{project_id}/stories/?fields=project_id,name,description,requested_by,url,story_type,estimate,current_state,created_at,updated_at,accepted_at,owners,labels,tasks,pull_requests,comments,transitions",),
             &[("filter", filter)],
         )
         .unwrap();
