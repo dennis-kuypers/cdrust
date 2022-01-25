@@ -2,6 +2,7 @@ mod models;
 
 pub use models::*;
 use reqwest::header::HeaderValue;
+use reqwest::Url;
 use serde::de::DeserializeOwned;
 use serde::Serialize;
 use thiserror::Error;
@@ -71,6 +72,16 @@ impl Client {
         let url = format!(
             "https://www.pivotaltracker.com/services/v5/projects/{project_id}/stories/{story_id}?fields=project_id,name,description,requested_by,url,story_type,estimate,current_state,created_at,updated_at,accepted_at,owners,labels,tasks,pull_requests,comments,transitions",
         );
+        self.get(url).await
+    }
+
+    pub async fn get_stories(&self, project_id: u64, filter: &str) -> Result<Vec<Story>> {
+        let url = Url::parse_with_params(
+            &format!("https://www.pivotaltracker.com/services/v5/projects/{project_id}/stories/",),
+            &[("filter", filter)],
+        )
+        .unwrap();
+
         self.get(url).await
     }
 

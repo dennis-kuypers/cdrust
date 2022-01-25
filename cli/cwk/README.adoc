@@ -1,0 +1,56 @@
+= cssh
+:toc:
+
+A workflow helper.
+This is tightly integrated with our current workflow around pivotaltracker, git and github.
+
+== Usage Example
+
+=== prep
+
+* `cwk prep` asks for a story to prepare. (filters by owner=me & state in [started, planned, unstarted])
+* `cwk prep <pivotal_story_id_or_url>` prepares the given story
+
+== Configuration
+
+The configuration prefix is `cwk`
+
+|===
+| Key |Description |Example
+
+|story_template.description (string)
+|The description to add to stories when preparing.  Note that yoyu can use multi-line strings, see link:https://toml.io/en/[TOML Documentation]
+|`"# Hello"`
+
+|story_template.tasks (list of strings)
+|A list of tasks to add to stories when preparing.
+|`["Show the locked door", "Show the key"]`
+
+
+|===
+
+`cwk` requires link:../../README.adoc#config-pivotal[pivotal]
+
+== Changelog
+
+**Warning**
+_There is no guarantee for output stability.
+These tools are intended to be consumed by humans._
+
+=== [Unreleased]
+
+This is the initial release introducing the `prep` command.
+
+== Goals
+
+=== Initiate working on a new ticket
+
+1. ensure that the ticket has the required workflow steps (done, `cwk prep <id>`)
+2. ensure the ticket is in the correct state
+3. create and check out a local branch `PT-<pivotal_ticket_id>-<some_text>`
+4. set the git commit message template to include `[#<pivotal_ticket_id>]`
+5. record the fact that we are working on given ticket (or infer information from branch?)
+
+=== Drop out of workspace
+
+1. clear/reset commit message template

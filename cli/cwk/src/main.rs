@@ -1,3 +1,4 @@
+use cd_cli::dialog::{DialogOpts, DialogProvider};
 use cd_cli::prelude::*;
 
 #[derive(StructOpt, Debug)]
@@ -6,9 +7,9 @@ pub struct Opts {
     #[structopt(flatten)]
     pub config: cd_cli::config::ConfigOpts,
 
-    // currently unused
-    // #[structopt(flatten)]
-    // pub dialog: cd_cli::dialog::DialogOpts,
+    #[structopt(flatten)]
+    pub dialog: cd_cli::dialog::DialogOpts,
+
     #[structopt(subcommand)]
     pub cmd: Command,
 }
@@ -23,7 +24,7 @@ pub enum Command {
 #[derive(StructOpt, Debug)]
 pub struct SelectStory {
     #[structopt(parse(try_from_str = cd_cli::pivotal::parse_pivotal_story_id))]
-    pub story_id: u64,
+    pub story_id: Option<u64>,
 }
 
 static PIVOTALTRACKER_CONFIG_KEY: &str = "pivotal";
@@ -49,16 +50,42 @@ async fn main() -> anyhow::Result<()> {
     let pivotal_config: PivotalConfig = app.config(PIVOTALTRACKER_CONFIG_KEY)?;
 
     match opts.cmd {
-        Command::Prepare(args) => prepare(args, pivotal_config).await,
+        Command::Prepare(args) => prepare(app.dialog(opts.dialog)?, args, pivotal_config).await,
     }
 }
 
-async fn prepare(args: SelectStory, config: PivotalConfig) -> anyhow::Result<()> {
+async fn prepare(
+    dialog: cd_cli::dialog::InteractiveOutput,
+    args: SelectStory,
+    config: PivotalConfig,
+) -> anyhow::Result<()> {
     let client = cd_pivotaltracker::Client::new(&config.token);
     let project_id = config.project_id;
-    let story_id = args.story_id;
 
-    let story = client.get_story(project_id, story_id).await?;
+    let story = if let Some(id) = args.story_id {
+        client.get_story(project_id, id).await?
+    } else {
+        let mut stories = client
+            .get_stories(
+                project_id,
+                &format!(
+                    "owner:\"{}\" AND (state:unstarted OR state:started OR state:planned)",
+                    config.me
+                ),
+            )
+            .await?;
+
+        let story_text: Vec<String> = stories
+            .iter()
+            .map(|s| format!("[#{}] {}", s.id, s.name.as_ref().unwrap()))
+            .collect();
+        let story_text_ref: Vec<_> = story_text.iter().map(AsRef::as_ref).collect();
+        let selected_index = dialog
+            .select_one(&story_text_ref, "Select story")
+            .ok_or_else(|| anyhow!("No story selected"))?;
+
+        stories.swap_remove(selected_index)
+    };
 
     // Get a sorted list in preparation of some more intelligent comparisons
     // not really necessary at the moment.
@@ -88,7 +115,7 @@ async fn prepare(args: SelectStory, config: PivotalConfig) -> anyhow::Result<()>
         .skip(existing_count)
     {
         debug!("Creating task {}/{}", id, configured_count);
-        client.create_task(project_id, story_id, id, text).await?;
+        client.create_task(project_id, story.id, id, text).await?;
     }
 
     let requested_text = config.story_template.description;
@@ -96,7 +123,7 @@ async fn prepare(args: SelectStory, config: PivotalConfig) -> anyhow::Result<()>
         .description
         .as_ref()
         .map(|d| !d.contains(&requested_text))
-        .unwrap_or(false)
+        .unwrap_or(true)
     {
         info!("Updating story description");
 
@@ -111,7 +138,7 @@ async fn prepare(args: SelectStory, config: PivotalConfig) -> anyhow::Result<()>
 
         new_description.push_str(&requested_text);
 
-        client.set_description(project_id, story_id, &new_description).await?;
+        client.set_description(project_id, story.id, &new_description).await?;
     } else {
         debug!("Story text contains desired snippet. Skipping.");
     }

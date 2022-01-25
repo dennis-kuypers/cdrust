@@ -125,6 +125,28 @@ This usually refers to the name of a `~/.aws/config` `profile` section
 
 |===
 
+[#config-pivotal]
+==== pivotaltracker (lib)
+
+The config prefix is `pivotal`.
+
+|===
+| Key |Description |Example
+
+|me (string)
+|Your `User name` on your link:https://www.pivotaltracker.com/profile[PivotalTracker Profile]. This is used to filter tickets.
+|`albert_einstein`
+
+|token (string)
+|Your `api token` on your link:https://www.pivotaltracker.com/profile[PivotalTracker Profile].
+|`1234567890abcdef`
+
+|project_id (integer)
+|The project to use. Can be found as part of the url on the web.
+|`123456789`
+
+|===
+
 [#config-tunnelblick]
 ==== tunnelblick (lib)
 

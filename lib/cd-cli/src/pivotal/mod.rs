@@ -1,4 +1,11 @@
-
+pub async fn select_story(
+    client: &cd_pivotaltracker::Client,
+    project_id: u64,
+    filter: &str,
+    dialog: &impl super::dialog::DialogProvider,
+) -> anyhow::Result<cd_pivotaltracker::Story> {
+    anyhow::bail!("meh");
+}
 
 pub fn parse_pivotal_story_id(s: &str) -> Result<u64, String> {
     // we consider everything the user may throw at us
