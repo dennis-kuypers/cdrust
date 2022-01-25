@@ -1,0 +1,8 @@
+= cvpn
+
+
+== Configuration
+
+`cvpn` does not have tool specific settings.
+
+`cvpn` requires link:../../README.adoc#config-tunnelblick[tunnelblick]

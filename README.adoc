@@ -5,15 +5,21 @@
 
 Contains code for various (ops-related) tools written in rust.
 
-- `cli/cssh` - cli to easily SSH into AWS EC2 instances
-- `cli/cvpn` - cli to control VPN connections (Tunnelblick)
-- `lib/*` - supporting libraries
+== CLI tools
 
-link:CHANGELOG.md[Changelog]
+|===
+|Tool |
 
-== Install
+|link:cli/cssh/README.adoc[cssh]
+|cli to easily SSH into AWS EC2 instances
 
-=== homebrew (OSX)
+|link:cli/cvpn/README.adoc[cvpn]
+|cli to control VPN connections (Tunnelblick)
+|===
+
+=== Install
+
+==== homebrew (OSX)
 
 [source,shell,subs="attributes"]
 ----
@@ -21,7 +27,7 @@ brew tap {gh-repo} git@github.com:{gh-repo}.git
 brew install {all-bins}
 ----
 
-=== from source
+==== from source
 
 _Requires `rust` toolchain. see https://rustup.rs/_. MSRV=1.58
 
@@ -29,12 +35,12 @@ _Requires `rust` toolchain. see https://rustup.rs/_. MSRV=1.58
 
 This will install all binaries to `$HOME/.cargo/bin` (make sure that it's on your `$PATH`)
 
-== Configuration
+=== Configuration
 
 All tools are based on the same libraries, and they all share some configuration entries.
 When configuring aws related options they will apply to all tools (unless you specify in a tool-specific config file)
 
-=== Profiles
+==== Profiles
 
 The config system is profile based.
 
@@ -44,7 +50,7 @@ Finally the `global` profile is loaded and overwrites any previous values.
 
 The *selected profile* is determined either using the CLI switch `-p &lt;profile&gt;`/`--profile &lt;profile&gt;` or by reading the contents of `~/.cd/profile`.
 
-=== Files
+==== Files
 
 The file format is TOML.
 
@@ -88,19 +94,7 @@ or
 foo.bar = "hello config"
 ----
 
-=== Properties
-
-==== cssh (cli)
-
-`cssh` does not have tool specific settings.
-
-`cssh` requires link:#config-aws[AWS] and can optionally use link:#config-tmux[tmux] for multiplexing connections.
-
-==== cvpn (cli)
-
-`cvpn` does not have tool specific settings.
-
-`cvpn` requires link:#config-tunnelblick[tunnelblick]
+==== Properties
 
 [#config-aws]
 ==== aws (lib)

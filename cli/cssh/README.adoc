@@ -1,0 +1,38 @@
+:toc:
+= cssh
+
+cssh spawns ssh sessions by querying for EC2 instances. It has support for multiplexers, like tmux.
+
+== Usage Example
+
+`cssh <query> [<query>...]`
+
+Given three instances
+
+* `www_server-fra-i-12345678-01`
+* `sql_db_server-dus-i-12345678-01`
+* `sql_db_server-dus-i-12345678-02`
+
+Then running...
+
+* `cssh ww` immediately connects to the www_server (single result)
+* `cssh db` shows a list of the db servers to pick one to connect to (multiple results)
+* `cssh db 02` finds the instance whose name contains both `db` & `02` (single result)
+* `cssh --any db` picks any instance returned from AWS and immediately connects to it (multiple results)
+
+== Configuration
+
+`cssh` does not have tool specific settings.
+
+`cssh` requires link:../../README.adoc#config-aws[AWS] and can optionally use link:../../README.adoc#config-tmux[tmux] for multiplexing connections.
+
+== Changelog
+
+**Warning**
+> _There is no guarantee for output stability.These tools are intended to be consumed by humans._
+
+=== [Unreleased]
+
+=== [cssh 0.2.0]
+
+This is the initial release
