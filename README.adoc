@@ -145,15 +145,15 @@ The config prefix is `pivotal`.
 |===
 | Key |Description |Example
 
-|me (string)
+|me (string, required)
 |Your `User name` on your link:https://www.pivotaltracker.com/profile[PivotalTracker Profile]. This is used to filter tickets.
 |`"albert_einstein"`
 
-|token (string)
+|token (string, required)
 |Your `api token` on your link:https://www.pivotaltracker.com/profile[PivotalTracker Profile].
 |`"1234567890abcdef"`
 
-|project_id (integer)
+|project_id (integer, required)
 |The project to use. Can be found as part of the url on the web.
 |`123456789`
 

@@ -18,11 +18,11 @@ The configuration prefix is `cwk`
 |===
 | Key |Description |Example
 
-|story_template.description (string)
+|story_template.description (string, required)
 |The description to add to stories when preparing.  Note that yoyu can use multi-line strings, see link:https://toml.io/en/[TOML Documentation]
 |`"# Hello"`
 
-|story_template.tasks (list of strings)
+|story_template.tasks (list of strings, required)
 |A list of tasks to add to stories when preparing.
 |`["Show the locked door", "Show the key"]`
 
