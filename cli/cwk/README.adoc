@@ -37,7 +37,12 @@ The configuration prefix is `cwk`
 _There is no guarantee for output stability.
 These tools are intended to be consumed by humans._
 
-=== [Unreleased]
+=== [0.2.1]
+
+==== Changes
+* now loads story template from `cwk` config key (as documented)
+
+=== [0.2.0]
 
 This is the initial release introducing the `prep` command.
 

@@ -1,4 +1,4 @@
-use cd_cli::dialog::{DialogOpts, DialogProvider};
+use cd_cli::dialog::{DialogOpts, DialogProvider, InteractiveOutput};
 use cd_cli::prelude::*;
 
 #[derive(StructOpt, Debug)]
@@ -28,12 +28,17 @@ pub struct SelectStory {
 }
 
 static PIVOTALTRACKER_CONFIG_KEY: &str = "pivotal";
+static CWK_CONFIG_KEY: &str = "cwk";
 
 #[derive(Deserialize)]
 pub struct PivotalConfig {
     pub token: String,
     pub me: String,
     pub project_id: u64,
+}
+
+#[derive(Deserialize)]
+pub struct CwkConfig {
     pub story_template: StoryTemplate,
 }
 
@@ -48,9 +53,10 @@ async fn main() -> anyhow::Result<()> {
     let opts = Opts::from_args();
     let app = cd_cli::app::App::new(env!("CARGO_BIN_NAME"), opts.config.clone())?;
     let pivotal_config: PivotalConfig = app.config(PIVOTALTRACKER_CONFIG_KEY)?;
+    let cwk_config: CwkConfig = app.config(CWK_CONFIG_KEY)?;
 
     match opts.cmd {
-        Command::Prepare(args) => prepare(app.dialog(opts.dialog)?, args, pivotal_config).await,
+        Command::Prepare(args) => prepare(app.dialog(opts.dialog)?, args, pivotal_config, cwk_config).await,
     }
 }
 
@@ -58,6 +64,7 @@ async fn prepare(
     dialog: cd_cli::dialog::InteractiveOutput,
     args: SelectStory,
     config: PivotalConfig,
+    cwk_config: CwkConfig,
 ) -> anyhow::Result<()> {
     let client = cd_pivotaltracker::Client::new(&config.token);
     let project_id = config.project_id;
@@ -94,7 +101,7 @@ async fn prepare(
     tasks.sort_by_key(|t| t.position);
 
     let existing_count = tasks.len();
-    let configured_count = config.story_template.tasks.len();
+    let configured_count = cwk_config.story_template.tasks.len();
 
     // This block just performs user feedback - actual logic below
     match (existing_count, configured_count) {
@@ -106,7 +113,7 @@ async fn prepare(
     }
 
     // This loop does nothing when `expected <= actual` thanks to the `skip()`
-    for (id, text) in config
+    for (id, text) in cwk_config
         .story_template
         .tasks
         .iter()
@@ -118,7 +125,7 @@ async fn prepare(
         client.create_task(project_id, story.id, id, text).await?;
     }
 
-    let requested_text = config.story_template.description;
+    let requested_text = cwk_config.story_template.description;
     if story
         .description
         .as_ref()
