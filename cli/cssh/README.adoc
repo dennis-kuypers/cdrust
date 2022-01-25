@@ -1,7 +1,8 @@
 :toc:
 = cssh
 
-cssh spawns ssh sessions by querying for EC2 instances. It has support for multiplexers, like tmux.
+cssh spawns ssh sessions by querying for EC2 instances.
+It has support for multiplexers, like tmux.
 
 == Usage Example
 
@@ -29,7 +30,8 @@ Then running...
 == Changelog
 
 **Warning**
-> _There is no guarantee for output stability.These tools are intended to be consumed by humans._
+_There is no guarantee for output stability.
+These tools are intended to be consumed by humans._
 
 === [Unreleased]
 
