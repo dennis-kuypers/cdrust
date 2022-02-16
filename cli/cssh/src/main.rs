@@ -68,7 +68,7 @@ async fn main() -> anyhow::Result<()> {
     let interactive = app.dialog(opts.user)?;
 
     let no_multiplexer_support = multi_exec.is_none();
-    eprintln!("{:?}, {:?}", opts.select.has_no_filters(), config.default_selection);
+
     if no_multiplexer_support || (opts.select.has_no_filters() && config.default_selection == SelectionMode::Single) {
         let instance = cd_cli::aws::dialog::select_by_user_selection(instances, &interactive, "select ssh target")?;
         let ssh_command = ShellCommand::new("ssh".to_string(), vec![format!("cd-admin@{}", instance.private_ip)]);

@@ -35,6 +35,9 @@ These tools are intended to be consumed by humans._
 
 === [Unreleased]
 
+==== Fixes
+- remove debug output that was not intended to be printed
+
 === [cssh 0.2.0]
 
 This is the initial release
