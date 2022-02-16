@@ -37,9 +37,9 @@ pub struct Config {
 }
 
 pub struct _Output {
-    colorize: bool,
+    _colorize: bool,
     pretty: bool,
-    confirm_all: bool,
+    _confirm_all: bool,
     output: OutputFormat,
 }
 
@@ -78,9 +78,9 @@ pub struct Output(_Output);
 impl Output {
     pub fn new(opts: OutputOpts, config: Config) -> Self {
         Self(_Output {
-            colorize: !opts.no_color,
+            _colorize: !opts.no_color,
             pretty: !opts.no_pretty,
-            confirm_all: opts.yes,
+            _confirm_all: opts.yes,
             output: opts.output.or(config.format).unwrap_or(OutputFormat::Json),
         })
     }
