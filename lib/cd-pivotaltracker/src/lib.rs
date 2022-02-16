@@ -9,6 +9,8 @@ use thiserror::Error;
 
 type Result<T> = std::result::Result<T, Error>;
 
+const STORY_FIELDS: &str = "project_id,name,description,requested_by,url,story_type,estimate,current_state,created_at,updated_at,accepted_at,owners,labels,tasks,pull_requests,comments,transitions,branches";
+
 #[derive(Error, Debug)]
 pub enum Error {
     #[error("Unknown error occurred")]
@@ -68,16 +70,17 @@ impl Client {
             .json()
             .await?)
     }
+
     pub async fn get_story(&self, project_id: u64, story_id: u64) -> Result<Story> {
         let url = format!(
-            "https://www.pivotaltracker.com/services/v5/projects/{project_id}/stories/{story_id}?fields=project_id,name,description,requested_by,url,story_type,estimate,current_state,created_at,updated_at,accepted_at,owners,labels,tasks,pull_requests,comments,transitions",
+            "https://www.pivotaltracker.com/services/v5/projects/{project_id}/stories/{story_id}?fields={STORY_FIELDS}",
         );
         self.get(url).await
     }
 
     pub async fn get_stories(&self, project_id: u64, filter: &str) -> Result<Vec<Story>> {
         let url = Url::parse_with_params(
-            &format!("https://www.pivotaltracker.com/services/v5/projects/{project_id}/stories/?fields=project_id,name,description,requested_by,url,story_type,estimate,current_state,created_at,updated_at,accepted_at,owners,labels,tasks,pull_requests,comments,transitions",),
+            &format!("https://www.pivotaltracker.com/services/v5/projects/{project_id}/stories/?fields={STORY_FIELDS}"),
             &[("filter", filter)],
         )
         .unwrap();
@@ -90,16 +93,14 @@ impl Client {
         self.get(url).await
     }
 
-    pub async fn start_story(&self, project_id: u64, story_id: u64) -> Result<Story> {
+    pub async fn set_story_state(&self, project_id: u64, story_id: u64, state: StoryState) -> Result<Story> {
         let url = format!("https://www.pivotaltracker.com/services/v5/projects/{project_id}/stories/{story_id}");
 
         #[derive(Debug, Serialize)]
         struct StoryRequest {
             current_state: StoryState,
         }
-        let data = StoryRequest {
-            current_state: StoryState::Started,
-        };
+        let data = StoryRequest { current_state: state };
 
         self.put(url, data).await
     }
@@ -123,6 +124,18 @@ impl Client {
             position,
         };
         self.post(url, data).await
+    }
+
+    pub async fn set_estimate(&self, project_id: u64, story_id: u64, estimate: f32) -> Result<Story> {
+        let url = format!("https://www.pivotaltracker.com/services/v5/projects/{project_id}/stories/{story_id}");
+
+        #[derive(Serialize)]
+        struct SetEstimate {
+            pub estimate: f32,
+        }
+        let data = SetEstimate { estimate };
+
+        self.put(url, data).await
     }
 
     pub async fn set_description(&self, project_id: u64, story_id: u64, description: &str) -> Result<Story> {

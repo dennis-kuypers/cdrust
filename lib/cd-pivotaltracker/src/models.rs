@@ -23,6 +23,8 @@ pub struct Story {
     #[serde(default)]
     pub pull_requests: Vec<PullRequest>,
     #[serde(default)]
+    pub branches: Vec<Branch>,
+    #[serde(default)]
     pub comments: Vec<Comment>,
     #[serde(default)]
     pub transitions: Vec<Transition>,
@@ -81,6 +83,17 @@ pub struct Task {
     pub description: String,
     pub complete: bool,
     pub position: u64,
+    pub created_at: String,
+    pub updated_at: String,
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub struct Branch {
+    pub id: u64,
+    pub story_id: u64,
+    pub owner: String,
+    pub repo: String,
+    pub name: String,
     pub created_at: String,
     pub updated_at: String,
 }

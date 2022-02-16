@@ -1,6 +1,6 @@
-use std::str::FromStr;
 use crate::prelude::*;
 use cd_aws::ec2::{Ec2Instance, QueryFilter};
+use std::str::FromStr;
 
 #[derive(StructOpt, Debug)]
 pub struct Ec2SelectOpt {
@@ -73,20 +73,15 @@ struct Ec2InstanceFilter(Vec<Ec2InstanceFilterKind>);
 
 impl Ec2InstanceFilter {
     pub fn new(f: Vec<String>) -> Self {
-        let filters: Vec<Ec2InstanceFilterKind> = f.into_iter()
-            .map(|s| s.parse())
-            .flatten()
-            .collect();
+        let filters: Vec<Ec2InstanceFilterKind> = f.into_iter().map(|s| s.parse()).flatten().collect();
 
         Self(filters)
     }
 
     pub fn filter(&self, i: &Ec2Instance) -> bool {
-        self.0.iter().all(|filter| {
-            match filter {
-                Ec2InstanceFilterKind::InstanceId(id) => i.id.starts_with(id),
-                Ec2InstanceFilterKind::Text(t) => i.tags.get("Name").map(|name| name.contains(t)).unwrap_or_default(),
-            }
+        self.0.iter().all(|filter| match filter {
+            Ec2InstanceFilterKind::InstanceId(id) => i.id.starts_with(id),
+            Ec2InstanceFilterKind::Text(t) => i.tags.get("Name").map(|name| name.contains(t)).unwrap_or_default(),
         })
     }
 }

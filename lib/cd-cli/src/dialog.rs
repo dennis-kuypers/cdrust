@@ -55,6 +55,14 @@ pub enum AutoSelect {
 }
 
 impl InteractiveOutput {
+    pub fn read_line(&self, s: impl AsRef<str>, default: Option<String>) -> Option<String> {
+        let mut dialog = dialoguer::Input::new();
+        if let Some(d) = default {
+            dialog.default(d);
+        }
+        dialog.with_prompt(s.as_ref()).interact_text().ok()
+    }
+
     pub fn confirm(&self, s: impl AsRef<str>) -> Option<bool> {
         if self.yes {
             info!("Auto-confirming dialog due to `-yes`");

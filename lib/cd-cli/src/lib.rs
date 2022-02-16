@@ -14,6 +14,8 @@ pub mod output;
 #[cfg(feature = "pivotal")]
 pub mod pivotal;
 pub mod shell_multiplexer;
+#[cfg(feature = "tunnelblick")]
+pub mod tunnelblick;
 
 mod logging;
 

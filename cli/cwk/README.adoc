@@ -13,21 +13,7 @@ This is tightly integrated with our current workflow around pivotaltracker, git 
 
 == Configuration
 
-The configuration prefix is `cwk`
-
-|===
-| Key |Description |Example
-
-|story_template.description (string, required)
-|The description to add to stories when preparing.  Note that yoyu can use multi-line strings, see link:https://toml.io/en/[TOML Documentation]
-|`"# Hello"`
-
-|story_template.tasks (list of strings, required)
-|A list of tasks to add to stories when preparing.
-|`["Show the locked door", "Show the key"]`
-
-
-|===
+`cwk` does not have tool specific settings.
 
 `cwk` requires link:../../README.adoc#config-pivotal[pivotal]
 
@@ -36,6 +22,8 @@ The configuration prefix is `cwk`
 **Warning**
 _There is no guarantee for output stability.
 These tools are intended to be consumed by humans._
+
+=== [Unreleased]
 
 === [0.2.2]
 
@@ -55,7 +43,30 @@ This is the initial release introducing the `prep` command.
 
 == Goals
 
-=== Initiate working on a new ticket
+* unscheduled (icebox)
+* unstarted/planned
+* started
+* finished
+* delivered
+* accepted
+* rejected
+
+First check for all preconditions
+
+* ticket has to contain the well known tasks
+  - if not, add them
+* ticket description has to contain `# Risk Assessment`
+  - if not, add default
+* ticket has to be estimated
+  - if not, ask for estimation
+* ticket has to be in a valid state to work on
+  - `unscheduled/accepted/delivered` - nothing (filtered out)
+  - `unstarted`, `planned` and `rejected` -> auto promote to `started`
+  - `finished`
+    * ask if user wants to set back to `started`, because more work is required
+    * or ask if ticket should be delivered (and all remaining tasks checked/crossed?)
+
+Then
 
 1. ensure that the ticket has the required workflow steps (done, `cwk prep <id>`)
 2. ensure the ticket is in the correct state
