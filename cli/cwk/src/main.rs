@@ -1,7 +1,7 @@
 use cd_cli::dialog::DialogProvider;
 use cd_cli::pivotal::{PivotalTracker, SelectStory};
 use cd_cli::prelude::*;
-use cd_pivotaltracker::{Story, StoryState};
+use cd_pivotaltracker::{Story, StoryState, StoryType};
 use git2::build::CheckoutBuilder;
 use git2::{BranchType, ErrorCode, FetchOptions, RemoteCallbacks};
 
@@ -108,10 +108,10 @@ async fn on(
     prepare_tasks(&client, &story).await?;
     prepare_risk_assessment(&client, &story).await?;
 
-    trace!("Story estimate: {:?}", story.estimate);
-    let story_unestimated = story.estimate.map(|e| e == -1f32).unwrap_or(true);
-    if story_unestimated {
-        debug!("story is not estimated");
+    let needs_estimation = story.story_type.map(|t| t == StoryType::Feature).unwrap_or_default()
+        && story.estimate.map(|e| e == -1f32).unwrap_or(true);
+    if needs_estimation {
+        debug!("Story needs estimation");
 
         let estimate = dialog
             .read_line(

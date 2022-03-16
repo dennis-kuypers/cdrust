@@ -25,6 +25,10 @@ These tools are intended to be consumed by humans._
 
 === [Unreleased]
 
+==== Fixes
+
+* only ask for estimation on Features, not on Bugs etc.
+
 === [0.2.2]
 
 ==== Fixes
