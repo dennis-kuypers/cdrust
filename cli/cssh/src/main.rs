@@ -1,7 +1,4 @@
 //! # cssh
-//!
-//!
-
 use cd_cli::prelude::*;
 
 #[derive(StructOpt, Debug)]
@@ -15,6 +12,16 @@ pub struct Opts {
 
     #[structopt(flatten)]
     pub user: cd_cli::dialog::DialogOpts,
+
+    #[structopt(flatten)]
+    pub cssh: CsshOpts,
+}
+
+#[derive(StructOpt, Debug)]
+pub struct CsshOpts {
+    #[structopt(long)]
+    /// Run sftp instead of ssh
+    pub sftp: bool,
 }
 
 static CONFIG_NAME: &str = "cssh";
@@ -47,6 +54,17 @@ async fn main() -> anyhow::Result<()> {
     let app = App::new(env!("CARGO_BIN_NAME"), opts.config)?;
     let config: Config = app.config(CONFIG_NAME)?;
 
+    use cd_cli::dialog::DialogProvider;
+    let interactive = app.dialog(opts.user)?;
+
+    use cd_cli::vpn::EnsureVpn;
+    app.ensure_vpn()?;
+
+    let command = match opts.cssh.sftp {
+        true => "sftp",
+        _ => "ssh",
+    };
+
     use cd_cli::aws::AwsProvider;
     let aws_client = app.aws_client().await?;
 
@@ -58,20 +76,18 @@ async fn main() -> anyhow::Result<()> {
         // If we only found a single host we can launch right away
         info!("Found a single instance: {}, connecting...", target.to_short_string());
 
-        return Err(ShellCommand::new("ssh".to_string(), vec![format!("cd-admin@{}", target.private_ip)]).exec());
+        return Err(ShellCommand::new(command.to_string(), vec![format!("cd-admin@{}", target.private_ip)]).exec());
     }
 
     use cd_cli::shell_multiplexer::ShellMultiplexerProvider;
     let multi_exec = app.shell_multiplexer()?;
 
-    use cd_cli::dialog::DialogProvider;
-    let interactive = app.dialog(opts.user)?;
-
     let no_multiplexer_support = multi_exec.is_none();
 
     if no_multiplexer_support || (opts.select.has_no_filters() && config.default_selection == SelectionMode::Single) {
-        let instance = cd_cli::aws::dialog::select_by_user_selection(instances, &interactive, "select ssh target")?;
-        let ssh_command = ShellCommand::new("ssh".to_string(), vec![format!("cd-admin@{}", instance.private_ip)]);
+        let instance =
+            cd_cli::aws::dialog::select_by_user_selection(instances, &interactive, format!("select {command} target"))?;
+        let ssh_command = ShellCommand::new(command.to_string(), vec![format!("cd-admin@{}", instance.private_ip)]);
         return Err(ssh_command.exec());
     }
 
@@ -83,7 +99,7 @@ async fn main() -> anyhow::Result<()> {
 
     let commands: Vec<_> = instances
         .into_iter()
-        .map(|i| ShellCommand::new("ssh".to_string(), vec![format!("cd-admin@{}", i.private_ip)]))
+        .map(|i| ShellCommand::new(command.to_string(), vec![format!("cd-admin@{}", i.private_ip)]))
         .collect();
 
     Err(multi_exec.multi_exec(&commands))

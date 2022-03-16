@@ -9,17 +9,8 @@ const AWS_CONFIG_KEY: &str = "aws";
 pub struct AwsConfig {
     /// The profile to use
     pub profile: String,
-
-    /// The way to handle vpn connections
-    pub vpn: Option<AutoVpnMode>,
 }
 
-#[derive(Deserialize, PartialEq, Eq)]
-#[serde(rename_all = "lowercase")]
-pub enum AutoVpnMode {
-    Ask,
-    Abort,
-}
 
 #[async_trait::async_trait]
 pub trait AwsProvider {

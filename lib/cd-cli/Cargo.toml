@@ -30,4 +30,4 @@ url = "2.2"
 default = []
 aws = ["cd-aws"]
 pivotal = ["cd-pivotaltracker"]
-tunnelblick = ["cd-tunnelblick"]
+vpn = ["cd-tunnelblick"]

@@ -6,7 +6,7 @@ version = "0.2.0"
 edition = "2021"
 
 [dependencies]
-cd-cli = { path = "../../lib/cd-cli", features = ["tunnelblick"] }
+cd-cli = { path = "../../lib/cd-cli", features = ["vpn"] }
 cd-tunnelblick = { path = "../../lib/cd-tunnelblick" }
 
 anyhow = "1.0"

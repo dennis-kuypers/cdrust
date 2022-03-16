@@ -21,7 +21,6 @@ Contains code for various (ops-related) tools written in rust.
 
 |===
 
-
 === ceres substitutes
 
 Replacements for link:https://github.com/CenterDevice/ceres[ceres] features:
@@ -156,6 +155,22 @@ The config prefix is `pivotal`.
 |project_id (integer, required)
 |The project to use. Can be found as part of the url on the web.
 |`123456789`
+
+|===
+
+[#config-vpn]
+==== vpn (lib)
+
+The config prefix is `vpn`.
+The VPN functionality uses tunnelblick.
+
+|===
+| Key |Description |Example
+
+|action (string, defaults to `abort`)
+|The action to take when an application requires VPN.
+|`"abort"` (abort and show error)
+`"none"` (do not check VPN)
 
 |===
 

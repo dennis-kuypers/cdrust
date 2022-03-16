@@ -1,10 +1,10 @@
 [workspace]
 members = [
-  "cli/cssh",
-  "cli/cvpn",
-  "cli/cwk",
-  "lib/cd-aws",
-  "lib/cd-cli",
-  "lib/cd-pivotaltracker",
-  "lib/cd-tunnelblick",
+    "cli/cssh",
+    "cli/cvpn",
+    "cli/cwk",
+    "lib/cd-aws",
+    "lib/cd-cli",
+    "lib/cd-pivotaltracker",
+    "lib/cd-tunnelblick",
 ]

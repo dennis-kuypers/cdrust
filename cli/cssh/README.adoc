@@ -35,6 +35,9 @@ These tools are intended to be consumed by humans._
 
 === [Unreleased]
 
+==== Added
+- possibility to let cssh check for vpn connectivity, disabled by default. See link:../../README.adoc#config-vpn[vpn] to enable
+
 ==== Fixes
 - remove debug output that was not intended to be printed
 

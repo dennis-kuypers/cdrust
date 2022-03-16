@@ -4,6 +4,8 @@
 //!
 //! ## Features
 //! * `aws` enables aws support
+//! * `pivotal` enables pivotal api
+//! * `vpn` enables tunnelblick and the generic vpn module
 //!
 pub mod app;
 #[cfg(feature = "aws")]
@@ -14,8 +16,10 @@ pub mod output;
 #[cfg(feature = "pivotal")]
 pub mod pivotal;
 pub mod shell_multiplexer;
-#[cfg(feature = "tunnelblick")]
+#[cfg(feature = "vpn")]
 pub mod tunnelblick;
+#[cfg(feature = "vpn")]
+pub mod vpn;
 
 mod logging;
 
