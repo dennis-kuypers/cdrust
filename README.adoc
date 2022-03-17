@@ -167,7 +167,7 @@ The VPN functionality uses tunnelblick.
 |===
 | Key |Description |Example
 
-|action (string, defaults to `abort`)
+|action (string, defaults to `none`)
 |The action to take when an application requires VPN.
 |`"abort"` (abort and show error)
 `"none"` (do not check VPN)
