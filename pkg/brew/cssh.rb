@@ -1,5 +1,5 @@
 class Cssh < Formula
-  version '0.2.0'
+  version '0.3.0'
   desc "SSH into ec2 instances"
   homepage "https://github.com/dennis-kuypers/cdrust/cli"
 
@@ -7,7 +7,7 @@ class Cssh < Formula
     case Hardware::CPU::type
     when :intel
       url "https://github.com/dennis-kuypers/cdrust/releases/download/cssh-#{version}/cssh-#{version}-x86_64-apple-darwin.tar.gz"
-      sha256 "6cfe697f3ba3c8067b24183465b5aed82dca195f9bf3ee3e4335e15bb949b3b1"
+      sha256 "5654fb471c1ceb803b9f8e4ab8ee1822d24401c280964f616c1eff21cdafed91"
     end
   end
 

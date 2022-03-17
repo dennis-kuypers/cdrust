@@ -11,6 +11,15 @@ This is tightly integrated with our current workflow around pivotaltracker, git 
 * `cwk prep` asks for a story to prepare. (filters by owner=me & state in [started, planned, unstarted])
 * `cwk prep <pivotal_story_id_or_url>` prepares the given story
 
+=== on (WIP)
+
+(`cwk on` => "(c) work on)
+
+`cwk on` asks for a story to work on if not provided and sets the stories state to started.
+It will also ask for estimation and run the preparation steps just like `cwk prep`.
+
+Currently this command expects an environment variable `INFRA` that points to the infrastructure repository.
+
 == Configuration
 
 `cwk` does not have tool specific settings.
@@ -24,6 +33,11 @@ _There is no guarantee for output stability.
 These tools are intended to be consumed by humans._
 
 === [Unreleased]
+
+=== [0.3.0]
+==== Added
+
+* `cwk on` command (work in progress)
 
 ==== Fixes
 
@@ -58,17 +72,17 @@ This is the initial release introducing the `prep` command.
 First check for all preconditions
 
 * ticket has to contain the well known tasks
-  - if not, add them
+- if not, add them
 * ticket description has to contain `# Risk Assessment`
-  - if not, add default
+- if not, add default
 * ticket has to be estimated
-  - if not, ask for estimation
+- if not, ask for estimation
 * ticket has to be in a valid state to work on
-  - `unscheduled/accepted/delivered` - nothing (filtered out)
-  - `unstarted`, `planned` and `rejected` -> auto promote to `started`
-  - `finished`
-    * ask if user wants to set back to `started`, because more work is required
-    * or ask if ticket should be delivered (and all remaining tasks checked/crossed?)
+- `unscheduled/accepted/delivered` - nothing (filtered out)
+- `unstarted`, `planned` and `rejected` -> auto promote to `started`
+- `finished`
+* ask if user wants to set back to `started`, because more work is required
+* or ask if ticket should be delivered (and all remaining tasks checked/crossed?)
 
 Then
 

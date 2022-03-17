@@ -41,15 +41,22 @@ These tools are intended to be consumed by humans._
 
 === [Unreleased]
 
+=== [0.3.0]
+
 ==== Added
-- possibility to let cssh check for vpn connectivity, disabled by default. See link:../../README.adoc#config-vpn[vpn] to enable
+
+- possibility to let cssh check for vpn connectivity, disabled by default.
+See link:../../README.adoc#config-vpn[vpn] to enable
+- `--sftp` flag that runs `sftp` instead of `ssh`
 
 ==== Changed
+
 - be smart about queries with numbers - only match on cluster instances and not on random digits in name
 
 ==== Fixes
+
 - remove debug output that was not intended to be printed
 
-=== [cssh 0.2.0]
+=== [0.2.0]
 
 This is the initial release

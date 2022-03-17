@@ -1,5 +1,5 @@
 class Cwk < Formula
-  version '0.2.2'
+  version '0.3.2'
   desc "Workflow tooling"
   homepage "https://github.com/dennis-kuypers/cdrust"
 
@@ -7,7 +7,7 @@ class Cwk < Formula
     case Hardware::CPU::type
     when :intel
       url "https://github.com/dennis-kuypers/cdrust/releases/download/cwk-#{version}/cwk-#{version}-x86_64-apple-darwin.tar.gz"
-      sha256 "6c329b9082b8cc24b9f5e9ca5483c4f7270fc15a44e749005772314f8e8d2c5b"
+      sha256 "af3e0c31d663d2d9b6a28b863162b0e47e77ff865a8cc344b312f937014f4d7f"
     end
   end
 
