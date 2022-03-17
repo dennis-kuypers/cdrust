@@ -44,15 +44,18 @@ impl AwsClient {
             .profile_name(profile)
             .build();
 
-        let region = region_provider.region().await;
+        let region = region_provider
+            .region()
+            .await
+            .ok_or_else(|| ConfigLoadError::NoRegionInProfile(profile.to_owned()))?;
 
         let credentials_provider = ProfileFileCredentialsProvider::builder()
-            .configure(&provider_config.with_region(region.clone()))
+            .configure(&provider_config.with_region(Some(region.clone())))
             .profile_name(profile)
             .build();
 
         let aws_config = ConfigLoader::default()
-            .region(region.unwrap())
+            .region(region)
             .credentials_provider(credentials_provider)
             .load()
             .await;
@@ -65,4 +68,6 @@ impl AwsClient {
 pub enum ConfigLoadError {
     #[error("No profile specified")]
     NoProfileGiven,
+    #[error("Could not determine aws region to use for profile {0}. Please update your aws config (~/.aws/config) to include a region in the selected profile.")]
+    NoRegionInProfile(String),
 }
