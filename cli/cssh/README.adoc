@@ -8,6 +8,12 @@ It has support for multiplexers, like tmux.
 
 `cssh <query> [<query>...]`
 
+Query words can have 3 forms
+
+* `i-...` will only be matched against the aws instance id
+* numeric values will only match on the end of the name - intended for clustered instances
+* anything else will text match on the instance name
+
 Given three instances
 
 * `www_server-fra-i-12345678-01`
@@ -18,7 +24,7 @@ Then running...
 
 * `cssh ww` immediately connects to the www_server (single result)
 * `cssh db` shows a list of the db servers to pick one to connect to (multiple results)
-* `cssh db 02` finds the instance whose name contains both `db` & `02` (single result)
+* `cssh db 2` finds the instance whose name contains both `db` and the cluster instance is `2`, despite the first instance having a literal `2` in its name (single result)
 * `cssh --any db` picks any instance returned from AWS and immediately connects to it (multiple results)
 
 == Configuration
@@ -37,6 +43,9 @@ These tools are intended to be consumed by humans._
 
 ==== Added
 - possibility to let cssh check for vpn connectivity, disabled by default. See link:../../README.adoc#config-vpn[vpn] to enable
+
+==== Changed
+- be smart about queries with numbers - only match on cluster instances and not on random digits in name
 
 ==== Fixes
 - remove debug output that was not intended to be printed

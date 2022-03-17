@@ -11,7 +11,8 @@ pub struct Ec2SelectOpt {
     pub filter: Option<Vec<String>>,
 
     /// Filter instances
-    /// - start with `i-` to filter (starts_with) match on instance id
+    /// - start with `i-` to filter (starts_with) match on aws instance id
+    /// - numbers will only match on the end of the Name, intended for cluster-id filtering
     /// - anything else will be matched (contains) on the tag `Name`
     pub query: Vec<String>,
 }
@@ -53,7 +54,11 @@ fn parse_query_filter(s: &str) -> anyhow::Result<QueryFilter> {
 
 #[derive(Debug, Eq, PartialEq)]
 enum Ec2InstanceFilterKind {
-    InstanceId(String),
+    /// AWS instance id in the format `i-abcdefghijk`
+    AwsInstanceId(String),
+    /// A numeric identifier, used in clusters (1, 2, 3, ...)
+    InstanceId(u8),
+    /// Free form text to match
     Text(String),
 }
 
@@ -61,11 +66,19 @@ impl FromStr for Ec2InstanceFilterKind {
     type Err = ();
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        match s {
-            "" => Err(()),
-            instance if instance.starts_with("i-") => Ok(Ec2InstanceFilterKind::InstanceId(instance.to_string())),
-            query => Ok(Ec2InstanceFilterKind::Text(query.to_string())),
+        if s.is_empty() {
+            return Err(());
         }
+
+        if s.starts_with("i-") {
+            return Ok(Ec2InstanceFilterKind::AwsInstanceId(s.to_string()));
+        }
+
+        if let Ok(i) = s.parse::<u8>() {
+            return Ok(Ec2InstanceFilterKind::InstanceId(i));
+        }
+
+        Ok(Ec2InstanceFilterKind::Text(s.to_string()))
     }
 }
 
@@ -80,7 +93,12 @@ impl Ec2InstanceFilter {
 
     pub fn filter(&self, i: &Ec2Instance) -> bool {
         self.0.iter().all(|filter| match filter {
-            Ec2InstanceFilterKind::InstanceId(id) => i.id.starts_with(id),
+            Ec2InstanceFilterKind::AwsInstanceId(id) => i.id.starts_with(id),
+            Ec2InstanceFilterKind::InstanceId(id) => i
+                .tags
+                .get("Name")
+                .map(|name| name.ends_with(&format!("{}", id)))
+                .unwrap_or_default(),
             Ec2InstanceFilterKind::Text(t) => i.tags.get("Name").map(|name| name.contains(t)).unwrap_or_default(),
         })
     }
