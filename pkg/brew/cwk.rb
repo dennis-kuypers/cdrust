@@ -1,5 +1,5 @@
 class Cwk < Formula
-  version '0.3.2'
+  version '0.3.0'
   desc "Workflow tooling"
   homepage "https://github.com/dennis-kuypers/cdrust"
 
